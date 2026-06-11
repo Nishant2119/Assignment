@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<string> st;
+        int i = 0;
+
+        while (i < s.size()) {
+            if (s[i] != ']') {
+                st.push(string(1, s[i]));  
+            } else {
+               
+                string str = "";
+                while (st.top() != "[") {
+                    str = st.top() + str;
+                    st.pop();
+                }
+                st.pop(); 
+
+            
+                string freq = "";
+                while (!st.empty() && st.top()[0] >= '0' && st.top()[0] <= '9') {
+                    freq = st.top() + freq;
+                    st.pop();
+                }
+
+               
+                int f = stoi(freq);
+                string repeated = "";
+                for (int j = 0; j < f; j++) {
+                    repeated += str;
+                }
+                st.push(repeated);  
+            }
+            i++;
+        }
+
+        // build final answer from stack
+        string result = "";
+        while (!st.empty()) {
+            result = st.top() + result;
+            st.pop();
+        }
+        return result;
+    }
+};
